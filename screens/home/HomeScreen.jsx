@@ -1,19 +1,68 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import { getUsers } from "../../services/firestore_services";
-import { Text } from "react-native-paper";
 import { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView } from "react-native"; // 👈 Import ScrollView
+import { Text, List } from "react-native-paper";
+import {
+  getPersonalSitters,
+  getOrganizations,
+} from "../../services/firestore_services";
 
 const HomeScreen = () => {
-  const [users, setUsers] = useState([]);
+  const [orgsData, setOrgsData] = useState([]);
+  const [sittersData, setSittersData] = useState([]);
+
   useEffect(() => {
-    const unsubscribe = getUsers(setUsers);
-    return () => unsubscribe();
-  }, [getUsers]);
+    const unsubscribeSitters = getPersonalSitters(setSittersData);
+    const unsubscribeOrgs = getOrganizations(setOrgsData);
+    return () => {
+      unsubscribeSitters();
+      unsubscribeOrgs();
+    };
+  }, []);
 
   return (
-    <SafeAreaView>
-      {users.length > 0 &&
-        users.map((user) => <Text key={user.createdAt}>{user.firstName}</Text>)}
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ padding: 16 }}>
+        <List.Section>
+          <List.Subheader>Organizations</List.Subheader>
+          {orgsData.length > 0 ? (
+            orgsData.map((item) => (
+              <List.Item
+                key={item.id}
+                title={item.info?.name || "Unnamed Org"}
+                description={item.info.email || "No email provided"}
+                left={() => <List.Icon icon="office-building" />}
+                right={() =>
+                  !item.isAuthenticated ? (
+                    <List.Icon icon="shield-alert" color="red" />
+                  ) : null
+                }
+              />
+            ))
+          ) : (
+            <Text>No organizations found</Text>
+          )}
+
+          <List.Subheader>Personal Sitters</List.Subheader>
+          {sittersData.length > 0 ? (
+            sittersData.map((item) => (
+              <List.Item
+                key={item.id}
+                title={item.userName || "Unnamed Sitter"}
+                description={item.email || "No email provided"}
+                left={() => <List.Icon icon="account-heart" />}
+                right={() =>
+                  !item.isAuthenticated ? (
+                    <List.Icon icon="shield-alert" />
+                  ) : null
+                }
+              />
+            ))
+          ) : (
+            <Text>No sitters found</Text>
+          )}
+        </List.Section>
+      </ScrollView>
     </SafeAreaView>
   );
 };
