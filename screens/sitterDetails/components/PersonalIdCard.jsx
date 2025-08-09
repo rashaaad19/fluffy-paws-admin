@@ -1,4 +1,4 @@
-import { TouchableOpacity } from "react-native";
+import { Linking, TouchableOpacity } from "react-native";
 import { Card, Text } from "react-native-paper";
 
 const PersonalIdCard = ({ personalId }) => {

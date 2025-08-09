@@ -4,6 +4,7 @@ import { getOrganizations } from "../../services/firestore_services";
 import { List } from "react-native-paper";
 import LoadingView from "../../components/LoadingView";
 import { useNavigation } from "@react-navigation/native";
+import ListAvatar from "../../components/ListAvatar";
 
 const OrgsView = () => {
   const [orgsData, setOrgsData] = useState([]);
@@ -49,9 +50,7 @@ const OrgsView = () => {
                 key={item.uid}
                 title={item.info?.name || "Unnamed Org"}
                 description={item.info?.email || "No email provided"}
-                left={(props) => (
-                  <List.Icon {...props} icon="office-building" />
-                )}
+                left={(props) => <ListAvatar {...props} url={item.branding.organizationLogo.cdnUrl}/>}
                 right={(props) => (
                   <List.Icon {...props} icon="clock-outline" color="#FFA500" />
                 )}
@@ -72,9 +71,11 @@ const OrgsView = () => {
               <List.Item
                 title={item.info?.name || "Unnamed Org"}
                 description={item.info?.email || "No email provided"}
-                left={(props) => (
-                  <List.Icon {...props} icon="office-building" />
+                right={(props) => (
+                  <List.Icon {...props} icon="check-decagram" color="#28a745" />
                 )}
+
+                left={(props) => <ListAvatar {...props} url={item.branding.organizationLogo.cdnUrl}/>}
               />
             </TouchableOpacity>
           ))
@@ -93,9 +94,7 @@ const OrgsView = () => {
                 key={item.uid}
                 title={item.info?.name || "Unnamed Org"}
                 description={item.info?.email || "No email provided"}
-                left={(props) => (
-                  <List.Icon {...props} icon="office-building" />
-                )}
+                left={(props) => <ListAvatar {...props} url={item.branding.organizationLogo.cdnUrl}/>}
                 right={(props) => (
                   <List.Icon {...props} icon="shield-alert" color="#E74C3C" />
                 )}
