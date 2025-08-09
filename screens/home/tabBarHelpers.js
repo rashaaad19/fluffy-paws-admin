@@ -9,7 +9,7 @@ export const renderScene = SceneMap({
 export const renderTabBar = (props) => (
   <TabBar
     {...props}
-    style={{ backgroundColor: "#be5985" }}
+    style={{ backgroundColor: "#be5985",paddingBlock:10 }}
     indicatorStyle={{ backgroundColor: "white" }}
   />
 );

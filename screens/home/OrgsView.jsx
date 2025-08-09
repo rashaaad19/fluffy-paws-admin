@@ -36,7 +36,7 @@ const OrgsView = () => {
           authenticatedOrgs.map((item) => (
             <TouchableOpacity
               key={item.uid}
-              onPress={() => navigation.navigate("Details",{item})}
+              onPress={() => navigation.navigate("Orginization", { item })}
             >
               <List.Item
                 title={item.info?.name || "Unnamed Org"}
@@ -54,15 +54,22 @@ const OrgsView = () => {
         <List.Subheader>Non-Authenticated Organizations</List.Subheader>
         {nonAuthenticatedOrgs.length > 0 ? (
           nonAuthenticatedOrgs.map((item) => (
-            <List.Item
+            <TouchableOpacity
               key={item.uid}
-              title={item.info?.name || "Unnamed Org"}
-              description={item.info?.email || "No email provided"}
-              left={(props) => <List.Icon {...props} icon="office-building" />}
-              right={(props) => (
-                <List.Icon {...props} icon="shield-alert" color="red" />
-              )}
-            />
+              onPress={() => navigation.navigate("Orginization", { item })}
+            >
+              <List.Item
+                key={item.uid}
+                title={item.info?.name || "Unnamed Org"}
+                description={item.info?.email || "No email provided"}
+                left={(props) => (
+                  <List.Icon {...props} icon="office-building" />
+                )}
+                right={(props) => (
+                  <List.Icon {...props} icon="shield-alert" color="#E74C3C" />
+                )}
+              />
+            </TouchableOpacity>
           ))
         ) : (
           <List.Item title="No non-authenticated organizations found" />

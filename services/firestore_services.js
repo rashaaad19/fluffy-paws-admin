@@ -1,4 +1,4 @@
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase"
 
 export const getUsers = (callback) => {
@@ -56,3 +56,57 @@ export const getOrganizations = (callback) => {
     return unsub;
 };
 
+
+export const authenticateSitter = async (collectionName, uid, setSnackbarVisible, setSnackbarMessage, setSnackbarColor) => {
+
+    try {
+        const itemRef = doc(db, collectionName, uid);
+        await updateDoc(itemRef, {
+            isAuthenticated: true,
+        });
+
+        setSnackbarMessage("Account is now authenticated!");
+        setSnackbarColor("#008C1C")
+        setSnackbarVisible(true);
+    } catch (error) {
+        console.error("Error updating document:", error);
+        setSnackbarMessage("Failed to update authentication.");
+        setSnackbarColor("#e7000b")
+        setSnackbarVisible(true);
+    }
+
+}
+
+export const rejectAuthentication = async (collectionName, uid, setSnackbarVisible, setSnackbarMessage, setSnackbarColor) => {
+    try {
+        const docRef = doc(db, collectionName, uid);
+
+        await updateDoc(docRef, { rejected: true });
+
+        setSnackbarMessage("Authentication request rejected successfully.");
+        setSnackbarColor('#FF7F50')
+        setSnackbarVisible(true);
+
+    } catch (error) {
+        console.error("Error rejecting authentication:", error);
+        setSnackbarMessage("Failed to reject authentication. Please try again.");
+        setSnackbarColor("#e7000b")
+        setSnackbarVisible(true);
+    }
+};
+
+export const deleteAccount = async (uid, collectionName, setSnackbarVisible, setSnackbarMessage, setSnackbarColor) => {
+    try {
+        await deleteDoc(doc(db, collectionName, uid));
+        setSnackbarMessage("Account is deleted!");
+        setSnackbarColor('#008C1C')
+        setSnackbarVisible(true);
+
+
+    } catch (error) {
+        console.error("Error deleting account:", error);
+        setSnackbarMessage("Failed to delete account.");
+        setSnackbarColor("#e7000b")
+        setSnackbarVisible(true);
+    }
+};
