@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { Button, Divider, Snackbar, Chip } from "react-native-paper";
 import ProfileHeader from "../../components/ProfileHeader";
 import ContactInfoCard from "../../components/ContactInfoCard";
-import BankingInfoCard from "../../components/BankingInfoCard";
-import DocumentInfoCard from "../../components/DocumentInfoCard";
 import GallerySection from "../../components/GallerySection";
 import {
   authenticateSitter,
   deleteAccount,
   rejectAuthentication,
 } from "../../services/firestore_services";
+import StatusChip from "../../components/StatusChip";
+import BankingInfoCard from './components/BankingInfoCard';
+import DocumentInfoCard from './components/DocumentInfoCard';
 
 //TODO: Divide the UI blocks into reusable components - Add functionality for Sitters screen - Add pending list section in home
 const OrginizationScreen = ({ route }) => {
@@ -73,47 +74,32 @@ const OrginizationScreen = ({ route }) => {
 
       {/* Authenticated badge */}
       {isAuthenticated && (
-        <Chip
-          icon="check"
-          style={{
-            backgroundColor: "#d4edda",
-            alignSelf: "center",
-            marginBottom: 16,
-          }}
-          textStyle={{ color: "#155724" }}
-        >
-          Authenticated
-        </Chip>
+        <StatusChip
+          backgroundColor={"#d4edda"}
+          textColor={"#155724"}
+          text={"Authenticated"}
+          icon={"check"}
+        />
       )}
 
       {/* Rejection badge */}
       {isRejected && (
-        <Chip
-          icon="close"
-          style={{
-            backgroundColor: "#f8d7da", // light red background
-            alignSelf: "center",
-            marginBottom: 16,
-          }}
-          textStyle={{ color: "#721c24" }} // dark red text
-        >
-          Rejected
-        </Chip>
+        <StatusChip
+          backgroundColor={"#f8d7da"}
+          textColor={"#721c24"}
+          text={"Rejected"}
+          icon={"close"}
+        />
       )}
 
       {/* Pending badge */}
       {authStatusPending && (
-        <Chip
-          icon="clock-outline"
-          style={{
-            backgroundColor: "#fff3cd", // light yellow background
-            alignSelf: "center",
-            marginBottom: 16,
-          }}
-          textStyle={{ color: "#856404" }} // dark yellow/brown text
-        >
-          Pending
-        </Chip>
+        <StatusChip
+          backgroundColor={"#fff3cd"}
+          textColor={"#856404"}
+          text={"Pending"}
+          icon={"clock-outline"}
+        />
       )}
 
       <Divider />
@@ -149,7 +135,7 @@ const OrginizationScreen = ({ route }) => {
       <Divider />
 
       {/* Gallery */}
-      <GallerySection images={item.gallery} />
+      {item.gallery&& <GallerySection images={item.gallery}/>}
 
       {/* Authentication actions */}
       {authStatusPending && (
@@ -197,7 +183,9 @@ const OrginizationScreen = ({ route }) => {
         duration={3000}
         style={{ backgroundColor: `${snackbarColor}` }}
       >
-        {snackbarMessage}
+        <Text style={{ fontWeight: "bold", fontSize: 16, color: "white" }}>
+          {snackbarMessage}
+        </Text>
       </Snackbar>
     </ScrollView>
   );

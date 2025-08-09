@@ -21,8 +21,8 @@ const ContactInfoCard = ({
       <Card.Title title="Contact Information" titleStyle={{fontWeight:'bold'}} />
       <Card.Content>
         <Text>📞 {phoneNumber}</Text>
-        <Text>📧 {email}</Text>
-        <Text>🌍 {website}</Text>
+      {email&&  <Text>📧 {email}</Text>}
+       {website&& <Text>🌍 {website}</Text>}
         <Text>
           📍 {street}, {district}, {city}
           , {postlCode}

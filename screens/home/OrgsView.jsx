@@ -26,11 +26,42 @@ const OrgsView = () => {
   }
 
   const authenticatedOrgs = orgsData.filter((item) => item.isAuthenticated);
-  const nonAuthenticatedOrgs = orgsData.filter((item) => !item.isAuthenticated);
+  const nonAuthenticatedOrgs = orgsData.filter(
+    (item) => !item.isAuthenticated && item.rejected
+  );
+  const pendingOrgs = orgsData.filter(
+    (item) =>
+      !item.isAuthenticated &&
+      (item.rejected === undefined || item.rejected === null)
+  );
 
   return (
     <ScrollView>
       <List.Section>
+        <List.Subheader>Pending Accounts</List.Subheader>
+        {pendingOrgs.length > 0 ? (
+          pendingOrgs.map((item) => (
+            <TouchableOpacity
+              key={item.uid}
+              onPress={() => navigation.navigate("Orginization", { item })}
+            >
+              <List.Item
+                key={item.uid}
+                title={item.info?.name || "Unnamed Org"}
+                description={item.info?.email || "No email provided"}
+                left={(props) => (
+                  <List.Icon {...props} icon="office-building" />
+                )}
+                right={(props) => (
+                  <List.Icon {...props} icon="clock-outline" color="#FFA500" />
+                )}
+              />
+            </TouchableOpacity>
+          ))
+        ) : (
+          <List.Item title="No pending accounts" />
+        )}
+
         <List.Subheader>Authenticated Organizations</List.Subheader>
         {authenticatedOrgs.length > 0 ? (
           authenticatedOrgs.map((item) => (
@@ -48,7 +79,7 @@ const OrgsView = () => {
             </TouchableOpacity>
           ))
         ) : (
-          <List.Item title="No authenticated organizations found" />
+          <List.Item title="No authenticated organizations " />
         )}
 
         <List.Subheader>Non-Authenticated Organizations</List.Subheader>
@@ -72,7 +103,7 @@ const OrgsView = () => {
             </TouchableOpacity>
           ))
         ) : (
-          <List.Item title="No non-authenticated organizations found" />
+          <List.Item title="No non-authenticated organizations" />
         )}
       </List.Section>
     </ScrollView>

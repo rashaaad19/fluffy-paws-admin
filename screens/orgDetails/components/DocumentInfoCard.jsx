@@ -1,6 +1,6 @@
 import { Linking, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { Button, Card, Text } from "react-native-paper";
+import { Card, Text } from "react-native-paper";
 
 const DocumentInfoCard = ({ businessLicense, insuranceCertificate, taxId }) => {
   return (

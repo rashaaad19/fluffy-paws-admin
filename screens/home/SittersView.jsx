@@ -38,7 +38,7 @@ const SittersView = () => {
           authenticatedSitters.map((item) => (
             <TouchableOpacity
               key={item.uid}
-              onPress={() => navigation.navigate("Details", { item })}
+              onPress={() => navigation.navigate("Sitter", { item })}
             >
               <List.Item
                 key={item.uid}
@@ -57,7 +57,7 @@ const SittersView = () => {
           nonAuthenticatedSitters.map((item) => (
             <TouchableOpacity
               key={item.uid}
-              onPress={() => navigation.navigate("Details", { item })}
+              onPress={() => navigation.navigate("Sitter", { item })}
             >
               <List.Item
                 key={item.uid}

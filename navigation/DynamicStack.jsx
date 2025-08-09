@@ -2,20 +2,20 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/home/HomeScreen";
 import { StatusBar } from "react-native";
 import OrginizationScreen from "../screens/orgDetails/OrginizationScreen";
+import SitterScreen from "../screens/sitterDetails/SitterScreen";
 
 const DynamicStack = () => {
   const Stack = createNativeStackNavigator();
   return (
-<Stack.Navigator
-  screenOptions={{
-    headerStyle: {
-      backgroundColor: "#be5985",
-    },
-    headerTintColor: 'white',
-    headerStatusBarHeight: StatusBar.currentHeight, 
-
-  }}
->
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#be5985",
+        },
+        headerTintColor: "white",
+        headerStatusBarHeight: StatusBar.currentHeight,
+      }}
+    >
       <Stack.Screen
         name="Home"
         component={HomeScreen}
@@ -24,7 +24,12 @@ const DynamicStack = () => {
       <Stack.Screen
         name="Orginization"
         component={OrginizationScreen}
-        options={{ headerTitle: '' }}
+        options={{ headerTitle: "" }}
+      />
+      <Stack.Screen
+        name="Sitter"
+        component={SitterScreen}
+        options={{ headerTitle: "" }}
       />
     </Stack.Navigator>
   );
